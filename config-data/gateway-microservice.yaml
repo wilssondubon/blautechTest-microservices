@@ -1,13 +1,15 @@
 server:
   port: 8080
+
 eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
-    service-url:
-      default-zone: http://localhost:8761/eureka/
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
   instance:
     hostname: localhost
+
 spring:
   cloud:
     gateway:
@@ -19,23 +21,3 @@ spring:
           uri: lb://users-microservice
           predicates:
             - Path=/api/users/**
-        - id: products-microservice
-          uri: lb://products-microservice
-          predicates:
-            - Path=/api/products/** 
-        - id: ordersdetail-microservice
-          uri: lb://ordersdetail-microservice
-          predicates:
-            - Path=/api/ordersdetails/**
-        - id: orders-microservice
-          uri: lb://orders-microservice
-          predicates:
-            - Path=/api/orders/** 
-        - id: cart-microservice
-          uri: lb://cart-microservice
-          predicates:
-            - Path=/api/cart/** 
-        - id: auth-microservice
-          uri: lb://auth-microservice
-          predicates:
-            - Path=/api/auth/** 
