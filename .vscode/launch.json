@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "GatewayMicroserviceApplication",
+            "request": "launch",
+            "mainClass": "com.blautech.gateway_microservice.GatewayMicroserviceApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "EurekaMicroserviceApplication",
             "request": "launch",
             "mainClass": "com.blautech.eureka_microservice.EurekaMicroserviceApplication",
@@ -15,7 +22,8 @@
             "mainClass": "com.blautech.users_microservice.UsersMicroserviceApplication",
             "projectName": "users-microservice",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=50129 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=users-microservice"
         },
         {
             "type": "java",
@@ -66,6 +74,17 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.blautech.eureka_microservice.EurekaMicroserviceApplication",
             "projectName": "eureka-microservice",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=50106 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=eureka-microservice"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-GatewayMicroserviceApplication<gateway-microservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.blautech.gateway_microservice.GatewayMicroserviceApplication",
+            "projectName": "gateway-microservice",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
