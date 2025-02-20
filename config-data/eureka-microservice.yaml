@@ -1,0 +1,6 @@
+server:
+  port: 8007
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
