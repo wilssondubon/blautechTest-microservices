@@ -1,0 +1,44 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-UsersMicroserviceApplication<users-microservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.blautech.users_microservice.UsersMicroserviceApplication",
+            "projectName": "users-microservice",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ProductsMicroserviceApplication<products-microservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.blautech.products_microservice.ProductsMicroserviceApplication",
+            "projectName": "products-microservice",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-EmployeeMicroserviceApplication<employee-microservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.blautech.employee_microservice.EmployeeMicroserviceApplication",
+            "projectName": "employee-microservice",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-OrdersdetailMicroserviceApplication<ordersdetail-microservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.blautech.ordersdetail_microservice.OrdersdetailMicroserviceApplication",
+            "projectName": "ordersdetail-microservice",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
