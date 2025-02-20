@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "EurekaMicroserviceApplication",
+            "request": "launch",
+            "mainClass": "com.blautech.eureka_microservice.EurekaMicroserviceApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-UsersMicroserviceApplication<users-microservice>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
@@ -18,7 +25,8 @@
             "mainClass": "com.blautech.products_microservice.ProductsMicroserviceApplication",
             "projectName": "products-microservice",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=49652 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=products-microservice"
         },
         {
             "type": "java",
@@ -48,7 +56,8 @@
             "mainClass": "com.blautech.config_microservice.ConfigMicroserviceApplication",
             "projectName": "config-microservice",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=49493 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=config-microservice"
         }
     ]
 }
