@@ -39,6 +39,16 @@
             "projectName": "ordersdetail-microservice",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ConfigMicroserviceApplication<config-microservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.blautech.config_microservice.ConfigMicroserviceApplication",
+            "projectName": "config-microservice",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
