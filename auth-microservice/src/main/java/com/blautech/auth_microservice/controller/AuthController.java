@@ -7,8 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+
+import com.blautech.auth_microservice.dto.UserCreatedResponseDTO;
 import com.blautech.auth_microservice.dto.UserLoginCredentialsDTO;
 import com.blautech.auth_microservice.dto.UserRegistryDTO;
 import com.blautech.auth_microservice.service.AuthService;
@@ -21,8 +26,9 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public String addNewUser(@RequestBody UserRegistryDTO user){
-        return authService.registerUser(user);
+    public ResponseEntity<UserCreatedResponseDTO> addNewUser(@RequestBody @Validated UserRegistryDTO user){
+        UserCreatedResponseDTO userNew = authService.registerUser(user);
+        return ResponseEntity.ok(userNew);
     }
 
     @PostMapping("/token")

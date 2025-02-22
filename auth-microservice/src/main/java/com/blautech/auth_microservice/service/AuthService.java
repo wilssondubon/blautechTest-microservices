@@ -3,17 +3,19 @@ package com.blautech.auth_microservice.service;
 
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.blautech.auth_microservice.client.UsersClient;
-import com.blautech.auth_microservice.dto.UserCreateDTO;
+import com.blautech.auth_microservice.client.UserProfileClient;
+import com.blautech.auth_microservice.dto.UserProfileCreateDTO;
+import com.blautech.auth_microservice.dto.UserCreatedResponseDTO;
 import com.blautech.auth_microservice.dto.UserLoginCredentialsDTO;
 import com.blautech.auth_microservice.dto.UserRegistryDTO;
-import com.blautech.auth_microservice.dto.UserResponseDTO;
-import com.blautech.auth_microservice.entity.UsersCredentials;
-import com.blautech.auth_microservice.repository.UsersCredentialsRepository;
+import com.blautech.auth_microservice.dto.UserProfileResponseDTO;
+import com.blautech.auth_microservice.entity.User;
+import com.blautech.auth_microservice.repository.UserRepository;
 
 import feign.FeignException;
 
@@ -29,86 +31,75 @@ public class AuthService {
     private JWTService jwtService;
 
     @Autowired
-    private UsersCredentialsRepository usersCredentialsRepository; 
+    private UserRepository userRepository; 
 
     @Autowired
-    private UsersClient usersClient;
+    private UserProfileClient userProfileClient;
+
+    @Autowired
+    private ModelMapper mapper;
 
     @Transactional
-    public String registerUser(UserRegistryDTO userRegistry) {
+    public UserCreatedResponseDTO registerUser(UserRegistryDTO userRegistry) {
         
         if (!userRegistry.getPassword().equals(userRegistry.getPasswordConfirmation())) {
-            return "Passwords do not match";
+            return new UserCreatedResponseDTO(false,  "Passwords do not match");
         }
 
-        try{
-            UserResponseDTO userExist = usersClient.getUserByEmail(userRegistry.getEmail());
+        Optional<User> userExist = userRepository.findByEmail(userRegistry.getEmail());
 
-            if (userExist != null) {
-                return "User already exists";
-            }
-        }
-        catch (FeignException.NotFound e){
-            System.out.println("Usuario no encontrado, continuando con el registro...");
-        }
+        if (userExist.isPresent())
+            return new UserCreatedResponseDTO(false, "User already exists");
+
+        User usersNew = new User();
+                
+        usersNew.setEmail(userRegistry.getEmail()); 
+        usersNew.setPassword(passwordEncoder.encode(userRegistry.getPassword()));
         
+        User userCreated = userRepository.save(usersNew);
 
-        UserCreateDTO userCreateDTO = new UserCreateDTO(
+
+        UserProfileCreateDTO userProfileNew= new UserProfileCreateDTO(
+            userCreated.getId(),
             userRegistry.getFirstName(), 
             userRegistry.getLastName(), 
-            userRegistry.getEmail(), 
             userRegistry.getShippingAddress(), 
             userRegistry.getDateOfBirth());
 
-        UserResponseDTO newUserResponse;
 
-        try {
-            newUserResponse = usersClient.saveUser(userCreateDTO);
-
-            if (newUserResponse == null) {
-                return "Error: User does not exist after creation";
-            }
-
-        } catch (Exception e) {
-            return "Error saving user";
-        }
-
+        UserProfileResponseDTO UserProfileCreated;
 
         try {
 
-            UsersCredentials usersCredentials = new UsersCredentials();
-                
-            usersCredentials.setUserId(newUserResponse.getId()); 
-            usersCredentials.setPassword(passwordEncoder.encode(userRegistry.getPassword()));
-
-
-            usersCredentialsRepository.save(usersCredentials);
+            UserProfileCreated = userProfileClient.saveUser(userProfileNew);
 
         } catch (Exception e) {
-            usersClient.deleteUserById(newUserResponse.getId());
-            return "Error saving user credentials";
+
+            userRepository.deleteById(userCreated.getId());
+
+            return new UserCreatedResponseDTO(false,"Error saving user profile");
+
         }
 
-        return "User registered successfully";
+        UserCreatedResponseDTO response = mapper.map(UserProfileCreated, UserCreatedResponseDTO.class);
+        response.setSuccess(true);
+        response.setMessage("User register successfully");
+
+        return response;
     }
 
     public String generateToken(UserLoginCredentialsDTO userLoginCredentials){
 
-        UserResponseDTO userExist = usersClient.getUserByEmail(userLoginCredentials.getEmail());
+        Optional<User> userExist  = userRepository.findByEmail(userLoginCredentials.getEmail());
 
-        if (userExist == null) {
+        if (!userExist.isPresent()) {
             return "User not exists";
         }
 
-        Optional<UsersCredentials> credentials = usersCredentialsRepository.findByUserId(userExist.getId());
-
-        if (!credentials.isPresent())
-            return "Error getting credentials";
-
-        if (!passwordEncoder.matches(userLoginCredentials.getPassword(), credentials.get().getPassword())) 
+        if (!passwordEncoder.matches(userLoginCredentials.getPassword(), userExist.get().getPassword())) 
             return "Invalid credentials";
         
-        return jwtService.generateToken(userExist.getId(), userLoginCredentials.getEmail());
+        return jwtService.generateToken(userExist.get().getId(), userLoginCredentials.getEmail());
     }
 
     public void validateToken(String token){
