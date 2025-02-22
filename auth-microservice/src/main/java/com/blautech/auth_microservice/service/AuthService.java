@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import com.blautech.auth_microservice.client.UserProfileClient;
 import com.blautech.auth_microservice.dto.UserProfileCreateDTO;
@@ -16,8 +16,6 @@ import com.blautech.auth_microservice.dto.UserRegistryDTO;
 import com.blautech.auth_microservice.dto.UserProfileResponseDTO;
 import com.blautech.auth_microservice.entity.User;
 import com.blautech.auth_microservice.repository.UserRepository;
-
-import feign.FeignException;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -39,7 +37,6 @@ public class AuthService {
     @Autowired
     private ModelMapper mapper;
 
-    @Transactional
     public UserCreatedResponseDTO registerUser(UserRegistryDTO userRegistry) {
         
         if (!userRegistry.getPassword().equals(userRegistry.getPasswordConfirmation())) {
@@ -67,7 +64,7 @@ public class AuthService {
             userRegistry.getDateOfBirth());
 
 
-        UserProfileResponseDTO UserProfileCreated;
+        UserProfileResponseDTO UserProfileCreated = new UserProfileResponseDTO();
 
         try {
 

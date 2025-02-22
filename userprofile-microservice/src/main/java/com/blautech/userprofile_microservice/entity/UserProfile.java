@@ -12,7 +12,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Data
-@Table(name="user")
+@Table(name="userprofile")
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserProfile {

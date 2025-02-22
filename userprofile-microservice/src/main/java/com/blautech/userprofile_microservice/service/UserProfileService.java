@@ -38,8 +38,14 @@ public class UserProfileService {
         return null;
     }
 
-    public UserProfileResponseDTO saveUserProfile(UserProfileCreateDTO userProfile) {
-        UserProfile savedUserProfile = userProfileRepository.save(mapper.map(userProfile, UserProfile.class));
+    public UserProfileResponseDTO saveUserProfile(UserProfileCreateDTO userProfileDTO) {
+        UserProfile newUserProfile = new UserProfile();
+        newUserProfile.setUserId(userProfileDTO.getUserId());
+        newUserProfile.setFirstName(userProfileDTO.getFirstName());
+        newUserProfile.setLastName(userProfileDTO.getLastName());
+        newUserProfile.setShippingAddress(userProfileDTO.getShippingAddress());
+        newUserProfile.setDateOfBirth(userProfileDTO.getDateOfBirth());
+        UserProfile savedUserProfile = userProfileRepository.save(newUserProfile);
         return mapper.map(savedUserProfile, UserProfileResponseDTO.class);
     }
 
