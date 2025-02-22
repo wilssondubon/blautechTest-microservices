@@ -1,7 +1,7 @@
 package com.blautech.users_microservice.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+// import org.springframework.web.client.RestTemplate;
 
 import com.blautech.users_microservice.repository.UsersRepository;
 import com.blautech.users_microservice.dto.UserCreateDTO;
@@ -25,9 +25,6 @@ public class UsersService {
 
 	@Autowired
     private ModelMapper mapper;
-
-	@Autowired
-	private RestTemplate restTemplate;
 	
 	public List<UserResponseDTO> getAll(){
 		List<Users> users = usersRepository.findAll();
@@ -36,6 +33,14 @@ public class UsersService {
 	
 	public UserResponseDTO getUserById(int id) {
 		Optional<Users> user = usersRepository.findById(id);
+		if (!user.isPresent())
+			return null;
+
+		return user.map(u -> mapper.map(u, UserResponseDTO.class)).orElse(null);
+	}
+
+	public UserResponseDTO getUserByEmail(String email) {
+		Optional<Users> user = usersRepository.findByEmail(email);
 		if (!user.isPresent())
 			return null;
 
@@ -56,9 +61,17 @@ public class UsersService {
 
 		Users userEntity = mapper.map(user, Users.class);
 		userEntity.setId(id);
-		userEntity.setPassword(userOptional.get().getPassword());
 
 		Users userUpdate = usersRepository.save(userEntity);
 		return mapper.map(userUpdate, UserResponseDTO.class);
+	}
+
+	public boolean deleteUserById(int id) {
+		Optional<Users> userOptional = usersRepository.findById(id);
+		if (!userOptional.isPresent()) {
+			return false;
+		}
+		usersRepository.deleteById(id);
+		return true;
 	}
 }

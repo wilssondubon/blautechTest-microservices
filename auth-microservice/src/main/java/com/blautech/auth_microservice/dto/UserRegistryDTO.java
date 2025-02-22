@@ -1,18 +1,20 @@
-package com.blautech.users_microservice.dto;
+package com.blautech.auth_microservice.dto;
+
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Date;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class UserResponseDTO {
-    private int id;
+@AllArgsConstructor
+public class UserRegistryDTO {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
+    private String passwordConfirmation;
     private String shippingAddress;
     private Date dateOfBirth;
 }

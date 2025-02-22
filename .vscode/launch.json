@@ -86,6 +86,27 @@
             "mainClass": "com.blautech.gateway_microservice.GatewayMicroserviceApplication",
             "projectName": "gateway-microservice",
             "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=63469 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=gateway-microservice"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-AuthMicroserviceApplication<auth-microservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.blautech.auth_microservice.AuthMicroserviceApplication",
+            "projectName": "auth-microservice",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-UserprofileMicroserviceApplication<userprofile-microservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.blautech.userprofile_microservice.UserprofileMicroserviceApplication",
+            "projectName": "userprofile-microservice",
+            "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
     ]

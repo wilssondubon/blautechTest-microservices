@@ -4,6 +4,7 @@ import com.blautech.users_microservice.service.UsersService;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.blautech.users_microservice.dto.UserCreateDTO;
 import com.blautech.users_microservice.dto.UserResponseDTO;
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,8 +44,17 @@ public class UsersController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable("id") int id) {
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable int id) {
         UserResponseDTO user = usersService.getUserById(id);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/by-email")
+    public ResponseEntity<UserResponseDTO> getUserByEmail(@RequestParam String email) {
+        UserResponseDTO user = usersService.getUserByEmail(email);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
@@ -65,5 +77,14 @@ public class UsersController {
         }
         
         return ResponseEntity.ok(userUpdate);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable int id) {
+        boolean isDeleted = usersService.deleteUserById(id);
+        if (!isDeleted) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
     }
 }

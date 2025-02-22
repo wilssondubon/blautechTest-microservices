@@ -1,10 +1,11 @@
-package com.blautech.users_microservice.config;
+package com.blautech.userprofile_microservice.config;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class UsersConfig {
+public class UserConfig {
 
 
     @Bean

@@ -1,18 +1,19 @@
-package com.blautech.users_microservice.dto;
+package com.blautech.userprofile_microservice.dto;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
 import java.util.Date;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class UserResponseDTO {
-    private int id;
+@AllArgsConstructor
+public class UserProfileCreateDTO {
+    private Integer userId;
     private String firstName;
     private String lastName;
-    private String email;
     private String shippingAddress;
     private Date dateOfBirth;
 }

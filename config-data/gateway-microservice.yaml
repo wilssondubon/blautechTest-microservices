@@ -39,3 +39,7 @@ spring:
           uri: lb://auth-microservice
           predicates:
             - Path=/api/auth/** 
+        - id: userprofile-microservice
+          uri: lb://userprofile-microservice
+          predicates:
+            - Path=/api/userprofile/**

@@ -1,0 +1,12 @@
+spring:
+    application:
+        name: userprofile-microservice
+    cloud:
+        config:
+            uri: http://localhost:8081
+            enabled: true
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/blautech
+        username: root
+        password: root
