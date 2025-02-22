@@ -15,10 +15,6 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: users-microservice
-          uri: lb://users-microservice
-          predicates:
-            - Path=/api/users/**
         - id: products-microservice
           uri: lb://products-microservice
           predicates:
