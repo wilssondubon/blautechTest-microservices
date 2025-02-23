@@ -21,12 +21,6 @@ spring:
             - Path=/api/products/** 
           filters:
            - AuthenticationFilter
-        - id: ordersdetail-microservice
-          uri: lb://ordersdetail-microservice
-          predicates:
-            - Path=/api/ordersdetails/**
-          filters:
-           - AuthenticationFilter
         - id: orders-microservice
           uri: lb://orders-microservice
           predicates:
