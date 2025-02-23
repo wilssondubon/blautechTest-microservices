@@ -97,7 +97,8 @@
             "mainClass": "com.blautech.auth_microservice.AuthMicroserviceApplication",
             "projectName": "auth-microservice",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=60850 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=auth-microservice"
         },
         {
             "type": "java",
@@ -106,6 +107,17 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.blautech.userprofile_microservice.UserprofileMicroserviceApplication",
             "projectName": "userprofile-microservice",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=58259 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=userprofile-microservice"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-CartMicroserviceApplication<cart-microservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.blautech.cart_microservice.CartMicroserviceApplication",
+            "projectName": "cart-microservice",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
