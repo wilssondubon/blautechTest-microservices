@@ -1,4 +1,5 @@
-package com.blautech.ordersdetail_microservice.entity;
+package com.blautech.orders_microservice.entity;
+
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,12 +11,15 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class OrdersDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id", insertable = false, updatable = false)
+    private Orders order;
 
     @Column(name="order_id", nullable = false)
     private Integer orderId;
@@ -29,4 +33,3 @@ public class OrdersDetail {
     @Column(nullable = false)
     private BigDecimal subtotal;
 }
-

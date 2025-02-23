@@ -119,6 +119,17 @@
             "mainClass": "com.blautech.cart_microservice.CartMicroserviceApplication",
             "projectName": "cart-microservice",
             "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=60825 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=cart-microservice"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-OrdersMicroserviceApplication<orders-microservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.blautech.orders_microservice.OrdersMicroserviceApplication",
+            "projectName": "orders-microservice",
+            "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
     ]

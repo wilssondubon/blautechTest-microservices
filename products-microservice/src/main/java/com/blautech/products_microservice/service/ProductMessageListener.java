@@ -17,7 +17,6 @@ public class ProductMessageListener {
 
     
     @RabbitListener(queues = RabbitMQConfig.REQUEST_QUEUE)
-    // @SendTo(RabbitMQConfig.RESPONSE_QUEUE)
     public List<ProductsResponseDTO> getProductos(List<Integer> productsId) {
         return productsService.getProductsByIds(productsId);
     }

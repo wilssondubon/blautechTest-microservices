@@ -72,4 +72,13 @@ public class CartController {
         }
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<Void> deleteCartByUserId(@PathVariable Integer userId) {
+        boolean isDeleted = cartService.deleteCartByUserId(userId);
+        if (!isDeleted) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
 }

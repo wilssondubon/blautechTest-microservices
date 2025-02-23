@@ -1,8 +1,6 @@
 package com.blautech.cart_microservice.service;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +18,6 @@ import com.blautech.cart_microservice.dto.ProductsResponseDTO;
 import com.blautech.cart_microservice.entity.Cart;
 import com.blautech.cart_microservice.repository.CartRepository;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 
 @Service
 public class CartService {
@@ -96,6 +92,11 @@ public class CartService {
             return false;
         }
         cartRepository.deleteById(id);
+        return true;
+    }
+
+    public boolean deleteCartByUserId(Integer userId) {
+        cartRepository.deleteByUserId(userId);
         return true;
     }
 }

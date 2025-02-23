@@ -1,5 +1,4 @@
-package com.blautech.cart_microservice.dto;
-
+package com.blautech.orders_microservice.dto;
 
 import lombok.*;
 
