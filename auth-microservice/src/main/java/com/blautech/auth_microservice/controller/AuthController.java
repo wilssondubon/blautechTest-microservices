@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,21 +39,20 @@ public class AuthController {
     }
 
     @PostMapping("/token")
-    public String getToken(@RequestBody UserLoginCredentialsDTO user) {
+    public ResponseEntity<String> getToken(@RequestBody UserLoginCredentialsDTO user) {
         Authentication authenticate = autheticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
         if (authenticate.isAuthenticated()){
             CustomUserDetails details = (CustomUserDetails) authenticate.getPrincipal();
-            return authService.generateToken(details.getId(),user);
+            return ResponseEntity.ok((authService.generateToken(details.getId(),user)));
         }else {
-            throw new RuntimeException("invalid access");
-        }
-        
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid access");
+        } 
     }
 
     @GetMapping("/validate")
-    public String validateToken(@RequestParam("token") String token){
+    public ResponseEntity<String> validateToken(@RequestParam("token") String token){
         authService.validateToken(token);
-        return "Token is valid";
+        return ResponseEntity.ok("Token is valid");
     }
 
 
