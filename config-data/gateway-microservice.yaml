@@ -19,23 +19,35 @@ spring:
           uri: lb://products-microservice
           predicates:
             - Path=/api/products/** 
+          filters:
+           - AuthenticationFilter
         - id: ordersdetail-microservice
           uri: lb://ordersdetail-microservice
           predicates:
             - Path=/api/ordersdetails/**
+          filters:
+           - AuthenticationFilter
         - id: orders-microservice
           uri: lb://orders-microservice
           predicates:
-            - Path=/api/orders/** 
+            - Path=/api/orders/**
+          filters:
+           - AuthenticationFilter 
         - id: cart-microservice
           uri: lb://cart-microservice
           predicates:
             - Path=/api/cart/** 
+          filters:
+           - AuthenticationFilter
         - id: auth-microservice
           uri: lb://auth-microservice
           predicates:
             - Path=/api/auth/** 
+          filters:
+           - AuthenticationFilter
         - id: userprofile-microservice
           uri: lb://userprofile-microservice
           predicates:
             - Path=/api/userprofile/**
+          filters:
+           - AuthenticationFilter

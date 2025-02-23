@@ -1,6 +1,6 @@
 package com.blautech.gateway_microservice.filter;
 
-import org.apache.hc.core5.http.HttpHeaders;
+import org.springframework.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -41,7 +41,7 @@ public class AuthenticationFilter  extends AbstractGatewayFilterFactory<Authenti
 
             try{
                 
-                template.getForObject("http://auth-microservice/auth/validate?token="+authHeader, String.class);
+                template.getForObject("http://auth-microservice/api/auth/validate?token="+authHeader, String.class);
 
             }catch (Exception e) {
                 throw new RuntimeException("unauthorized");
