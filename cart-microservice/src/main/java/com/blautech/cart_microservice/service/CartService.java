@@ -1,5 +1,6 @@
 package com.blautech.cart_microservice.service;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
 import com.blautech.cart_microservice.config.RabbitMQConfig;
@@ -17,6 +19,9 @@ import com.blautech.cart_microservice.dto.CartUpdateDTO;
 import com.blautech.cart_microservice.dto.ProductsResponseDTO;
 import com.blautech.cart_microservice.entity.Cart;
 import com.blautech.cart_microservice.repository.CartRepository;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 @Service
 public class CartService {
@@ -39,10 +44,9 @@ public class CartService {
         if (!cart.isPresent())
             return null;
 
-        Collection<Integer> productIds = new HashSet<Integer>();
-        productIds.add(cart.get().getProductId());
+        List<Integer> productIds = Arrays.asList(cart.get().getProductId());
 
-        List<ProductsResponseDTO> products = (List<ProductsResponseDTO>) rabbitTemplate.convertSendAndReceive(RabbitMQConfig.REQUEST_QUEUE, productIds.stream().toList());
+        List<ProductsResponseDTO> products = (List<ProductsResponseDTO>) rabbitTemplate.convertSendAndReceiveAsType(RabbitMQConfig.REQUEST_QUEUE, productIds, new ParameterizedTypeReference<List<ProductsResponseDTO>>() {});
 
         CartResponseDTO cartResponse = cart.map(value -> mapper.map(value, CartResponseDTO.class)).orElse(null);
 
@@ -61,7 +65,7 @@ public class CartService {
             .map(Cart::getProductId)
             .toList();
 
-        List<ProductsResponseDTO> products = (List<ProductsResponseDTO>) rabbitTemplate.convertSendAndReceive(RabbitMQConfig.REQUEST_QUEUE, productIds);
+        List<ProductsResponseDTO> products = (List<ProductsResponseDTO>) rabbitTemplate.convertSendAndReceiveAsType(RabbitMQConfig.REQUEST_QUEUE, productIds, new ParameterizedTypeReference<List<ProductsResponseDTO>>() {});
 
         return carts.stream().map(cartItem -> new CartResponseDTO(cartItem, products.stream().filter(p->p.getId().equals(cartItem.getProductId())).findFirst().orElse(null))).toList();
     }
