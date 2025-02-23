@@ -2,15 +2,12 @@ package com.blautech.products_microservice.service;
 
 import com.blautech.products_microservice.entity.Products;
 import com.blautech.products_microservice.repository.ProductsRepository;
-import com.blautech.products_microservice.config.RabbitMQConfig;
 import com.blautech.products_microservice.dto.ProductsCreateDTO;
 import com.blautech.products_microservice.dto.ProductsResponseDTO;
 import com.blautech.products_microservice.dto.ProductsUpdateDTO;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,9 +24,8 @@ public class ProductsService {
     @Autowired
     private ModelMapper mapper;
 
-    @RabbitListener(queues = RabbitMQConfig.REQUEST_QUEUE)
-    @SendTo(RabbitMQConfig.RESPONSE_QUEUE)
-    public List<ProductsResponseDTO> getProductos(List<Integer> productsId) {
+
+    public List<ProductsResponseDTO> getProductsByIds(List<Integer> productsId) {
         List<Products> products = productsRepository.findAllById(productsId);
         return mapper.map(products, new TypeToken<List<ProductsResponseDTO>>() {}.getType());
     }

@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 public class CartResponseDTO {
     private Integer id;
 
-    private Integer user_id;
+    private Integer userId;
 
-    private Integer product_id;
+    private Integer productId;
 
     private ProductsResponseDTO product;
 
@@ -26,8 +26,8 @@ public class CartResponseDTO {
 
     public CartResponseDTO(Cart cart, ProductsResponseDTO product){
         this.id = cart.getId();
-        this.user_id = cart.getUser_id();
-        this.product_id = cart.getProduct_id();
+        this.userId = cart.getUserId();
+        this.productId = cart.getProductId();
         this.product = product;
         this.quantity = cart.getQuantity();
         this.subtotal = cart.getSubtotal();

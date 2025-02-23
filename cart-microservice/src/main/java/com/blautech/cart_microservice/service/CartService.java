@@ -40,7 +40,7 @@ public class CartService {
             return null;
 
         Collection<Integer> productIds = new HashSet<Integer>();
-        productIds.add(cart.get().getProduct_id());
+        productIds.add(cart.get().getProductId());
 
         List<ProductsResponseDTO> products = (List<ProductsResponseDTO>) rabbitTemplate.convertSendAndReceive(RabbitMQConfig.REQUEST_QUEUE, productIds.stream().toList());
 
@@ -49,21 +49,21 @@ public class CartService {
         if (cartResponse == null)
             return null;
 
-        cartResponse.setProduct(products.stream().filter(p->p.getId().equals(cartResponse.getProduct_id())).findFirst().get());
+        cartResponse.setProduct(products.stream().filter(p->p.getId().equals(cartResponse.getProductId())).findFirst().get());
 
         return cart.map(value -> mapper.map(value, CartResponseDTO.class)).orElse(null);
     }
 
     public List<CartResponseDTO> getCartByUserId(Integer userId){
-        List<Cart> carts = cartRepository.findyByUser_id(userId);
+        List<Cart> carts = cartRepository.findByUserId(userId);
 
         List<Integer> productIds = carts.stream()
-            .map(Cart::getProduct_id)
+            .map(Cart::getProductId)
             .toList();
 
         List<ProductsResponseDTO> products = (List<ProductsResponseDTO>) rabbitTemplate.convertSendAndReceive(RabbitMQConfig.REQUEST_QUEUE, productIds);
 
-        return carts.stream().map(cartItem -> new CartResponseDTO(cartItem, products.stream().filter(p->p.getId().equals(cartItem.getProduct_id())).findFirst().orElse(null))).toList();
+        return carts.stream().map(cartItem -> new CartResponseDTO(cartItem, products.stream().filter(p->p.getId().equals(cartItem.getProductId())).findFirst().orElse(null))).toList();
     }
 
     public CartResponseDTO saveCart(CartCreateDTO cartDTO) {
