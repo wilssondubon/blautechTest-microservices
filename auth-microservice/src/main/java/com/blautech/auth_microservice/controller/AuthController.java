@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Timestamp;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import com.blautech.auth_microservice.config.CustomUserDetails;
 import com.blautech.auth_microservice.dto.UserCreatedResponseDTO;
 import com.blautech.auth_microservice.dto.UserLoginCredentialsDTO;
 import com.blautech.auth_microservice.dto.UserRegistryDTO;
+import com.blautech.auth_microservice.dto.ValidTokenDTO;
 import com.blautech.auth_microservice.service.AuthService;
 
 @RestController
@@ -50,9 +53,23 @@ public class AuthController {
     }
 
     @GetMapping("/validate")
-    public ResponseEntity<String> validateToken(@RequestParam("token") String token){
-        authService.validateToken(token);
-        return ResponseEntity.ok("Token is valid");
+    public ResponseEntity<ValidTokenDTO> validateToken(@RequestParam("token") String token){
+        try{
+            authService.validateToken(token);
+            return ResponseEntity.ok(new ValidTokenDTO(
+                token,
+                true,
+                new Date(),
+                "token is valid"
+            ));
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ValidTokenDTO(
+                token,
+                false,
+                new Date(),
+                "invalid token"
+            ));
+        }
     }
 
 
