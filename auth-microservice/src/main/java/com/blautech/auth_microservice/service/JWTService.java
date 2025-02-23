@@ -1,7 +1,6 @@
 package com.blautech.auth_microservice.service;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +15,7 @@ import javax.crypto.SecretKey;
 @Component
 public class JWTService {
   
-    public static final String SECRET = "camello";
+    public static final String SECRET = "camellocaballocabellomazda321-09-creedence";
 
     public void validateToken(final String token) {
         Jwts.parser().verifyWith((SecretKey) getSignKey()).build().parseSignedClaims(token);
@@ -24,6 +23,7 @@ public class JWTService {
 
     public String generateToken(Integer userId, String email) {
         Map<String, Object> claims = new HashMap<>();
+
         claims.put("userId", userId);
         return createToken(claims, email);
     }
@@ -39,8 +39,8 @@ public class JWTService {
     }
 
     private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
-        return Keys.hmacShaKeyFor(keyBytes);
+        byte[] textBytes = SECRET.getBytes();
+        return Keys.hmacShaKeyFor(textBytes);
     }
     
 }

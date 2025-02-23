@@ -85,18 +85,8 @@ public class AuthService {
         return response;
     }
 
-    public String generateToken(UserLoginCredentialsDTO userLoginCredentials){
-
-        Optional<User> userExist  = userRepository.findByEmail(userLoginCredentials.getEmail());
-
-        if (!userExist.isPresent()) {
-            return "User not exists";
-        }
-
-        if (!passwordEncoder.matches(userLoginCredentials.getPassword(), userExist.get().getPassword())) 
-            return "Invalid credentials";
-        
-        return jwtService.generateToken(userExist.get().getId(), userLoginCredentials.getEmail());
+    public String generateToken(Integer userId, UserLoginCredentialsDTO userLoginCredentials){  
+        return jwtService.generateToken(userId,userLoginCredentials.getEmail());
     }
 
     public void validateToken(String token){

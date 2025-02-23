@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 
+import com.blautech.auth_microservice.config.CustomUserDetails;
 import com.blautech.auth_microservice.dto.UserCreatedResponseDTO;
 import com.blautech.auth_microservice.dto.UserLoginCredentialsDTO;
 import com.blautech.auth_microservice.dto.UserRegistryDTO;
@@ -25,6 +28,9 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private AuthenticationManager autheticationManager;
+
     @PostMapping("/register")
     public ResponseEntity<UserCreatedResponseDTO> addNewUser(@RequestBody @Validated UserRegistryDTO user){
         UserCreatedResponseDTO userNew = authService.registerUser(user);
@@ -33,7 +39,14 @@ public class AuthController {
 
     @PostMapping("/token")
     public String getToken(@RequestBody UserLoginCredentialsDTO user) {
-        return authService.generateToken(user);
+        Authentication authenticate = autheticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+        if (authenticate.isAuthenticated()){
+            CustomUserDetails details = (CustomUserDetails) authenticate.getPrincipal();
+            return authService.generateToken(details.getId(),user);
+        }else {
+            throw new RuntimeException("invalid access");
+        }
+        
     }
 
     @GetMapping("/validate")
