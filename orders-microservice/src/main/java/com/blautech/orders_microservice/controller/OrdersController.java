@@ -40,7 +40,7 @@ public class OrdersController {
         return ResponseEntity.created(URI.create("/" + newOrder.getId())).body(newOrder);
     }
 
-    @PatchMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<OrdersResponseDTO> updateOrder(@PathVariable Integer id, @RequestBody @Validated OrdersUpdateDTO ordersUpdateDTO) {
         OrdersResponseDTO updatedOrder = ordersService.updateOrder(id, ordersUpdateDTO);
         if (updatedOrder == null) {

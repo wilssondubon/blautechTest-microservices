@@ -50,14 +50,14 @@ public class UserProfileService {
     }
 
     public UserProfileResponseDTO updateUserProfile(Integer id, UserProfileUpdateDTO user) {
-		Optional<UserProfile> userProfileOptional = userProfileRepository.findById(id);
+		Optional<List<UserProfile>> userProfileOptional = userProfileRepository.findByUserId(id);
 
 		if (!userProfileOptional.isPresent()) {
 			return null;
 		}
 
 		UserProfile userProfileEntity = mapper.map(user, UserProfile.class);
-		userProfileEntity.setId(id);
+		userProfileEntity.setId(userProfileOptional.get().get(0).getId());
 
 		UserProfile userProfileUpdate = userProfileRepository.save(userProfileEntity);
 		return mapper.map(userProfileUpdate, UserProfileResponseDTO.class);

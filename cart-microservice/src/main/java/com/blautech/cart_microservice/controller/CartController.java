@@ -15,9 +15,9 @@ import org.springframework.validation.annotation.Validated;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.net.URI;
@@ -55,7 +55,7 @@ public class CartController {
             .body(newCart);
     }
 
-    @PatchMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<CartResponseDTO> updateCart(@PathVariable Integer id, @RequestBody @Validated CartUpdateDTO cartDTO) {
         CartResponseDTO updatedCart = cartService.updateCart(id, cartDTO);
         if (updatedCart == null) {
