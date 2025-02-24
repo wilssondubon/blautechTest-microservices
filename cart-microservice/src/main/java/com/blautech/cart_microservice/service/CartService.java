@@ -67,7 +67,11 @@ public class CartService {
     }
 
     public CartResponseDTO saveCart(CartCreateDTO cartDTO) {
-        Cart newCart = mapper.map(cartDTO, Cart.class);
+        Cart newCart = new Cart();
+        newCart.setProductId(cartDTO.getProductId());
+        newCart.setQuantity(cartDTO.getQuantity());
+        newCart.setSubtotal(cartDTO.getSubtotal());
+        newCart.setUserId(cartDTO.getUserId());
         Cart savedCart = cartRepository.save(newCart);
         return mapper.map(savedCart, CartResponseDTO.class);
     }
@@ -79,7 +83,11 @@ public class CartService {
             return null;
         }
 
-        Cart cartEntity = mapper.map(cartDTO, Cart.class);
+        Cart cartEntity = new Cart();
+        cartEntity.setProductId(cartDTO.getProductId());
+        cartEntity.setQuantity(cartDTO.getQuantity());
+        cartEntity.setSubtotal(cartDTO.getSubtotal());
+        cartEntity.setUserId(cartDTO.getUserId());
         cartEntity.setId(id);
 
         Cart updatedCart = cartRepository.save(cartEntity);

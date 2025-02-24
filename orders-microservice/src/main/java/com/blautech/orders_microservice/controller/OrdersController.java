@@ -40,6 +40,12 @@ public class OrdersController {
         return ResponseEntity.created(URI.create("/" + newOrder.getId())).body(newOrder);
     }
 
+    @PostMapping("/saveByCart/{userId}")
+    public ResponseEntity<OrdersResponseDTO> saveOrder(@PathVariable Integer userId) {
+        OrdersResponseDTO newOrder = ordersService.saveOrdersByCart(userId);
+        return ResponseEntity.created(URI.create("/" + newOrder.getId())).body(newOrder);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<OrdersResponseDTO> updateOrder(@PathVariable Integer id, @RequestBody @Validated OrdersUpdateDTO ordersUpdateDTO) {
         OrdersResponseDTO updatedOrder = ordersService.updateOrder(id, ordersUpdateDTO);
